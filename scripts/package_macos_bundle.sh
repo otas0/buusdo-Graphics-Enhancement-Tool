@@ -56,14 +56,17 @@ if ! "${RUN_PY[@]}" "${ROOT}/scripts/check_pyinstaller_datas.py" "${BUNDLE}"; th
   echo "OK  ${BUNDLE}: datas present (find)"
 fi
 
-# User-visible Dock / Finder name must be the official full product name
-# (other buusdo product-line apps share the short brand).
+# User-visible Dock / Finder / menu-bar name must be the official full product
+# name (other buusdo product-line apps share the short brand). macOS menu bar
+# uses CFBundleName; Dock/Launchpad use CFBundleDisplayName — set both.
 DISPLAY_NAME="$("${RUN_PY[@]}" -c "from buusdo import PRODUCT_NAME; print(PRODUCT_NAME)")"
 PLIST="${BUNDLE}/Contents/Info.plist"
 if [[ -f "${PLIST}" ]]; then
   /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName ${DISPLAY_NAME}" "${PLIST}" 2>/dev/null \
     || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string ${DISPLAY_NAME}" "${PLIST}"
-  echo "OK  CFBundleDisplayName=${DISPLAY_NAME}"
+  /usr/libexec/PlistBuddy -c "Set :CFBundleName ${DISPLAY_NAME}" "${PLIST}" 2>/dev/null \
+    || /usr/libexec/PlistBuddy -c "Add :CFBundleName string ${DISPLAY_NAME}" "${PLIST}"
+  echo "OK  CFBundleName/DisplayName=${DISPLAY_NAME}"
 fi
 
 rm -f "${OUT}/${ZIP_NAME}"

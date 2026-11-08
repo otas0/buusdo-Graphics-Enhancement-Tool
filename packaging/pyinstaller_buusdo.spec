@@ -9,6 +9,7 @@ SPEC_DIR = _spec if _spec.is_dir() else _spec.parent
 ROOT = SPEC_DIR.parent
 ENTRY = ROOT / "buusdo" / "app.py"
 ICO = ROOT / "buusdo" / "assets" / "logo.ico"
+VERSION = ROOT / "packaging" / "buusdo_win_version.txt"
 if not ENTRY.is_file():
     raise SystemExit(f"entry missing: {ENTRY}")
 
@@ -49,4 +50,5 @@ exe = EXE(  # noqa: F821
     codesign_identity=None,
     entitlements_file=None,
     icon=str(ICO) if ICO.is_file() else None,
+    version=str(VERSION) if VERSION.is_file() else None,
 )
