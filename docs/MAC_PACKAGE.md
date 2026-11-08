@@ -73,6 +73,31 @@ Developer ID / notarization / Authenticode / IPA unless explicitly requested.
 Holds unchanged: no Authenticode / Developer ID notarization / IPA unless a
 human explicitly reopens signing.
 
+## Refresh published zip
+
+Use this when a **mac-only** fix must land on an existing GitHub tag (e.g. `v1.1.0`)
+without cutting a new version:
+
+1. On a Mac with the fix on `main`: `bash scripts/package_macos_bundle.sh`
+2. Confirm `scripts/smoke_macos_zip.py dist/buusdo-macos-*.zip` (includes no `Icon\r`).
+3. `git push` the fix commit if it is not on `origin` yet.
+4. Overwrite the release asset (example for `v1.1.0`):
+
+```bash
+NEW=$(shasum -a 256 dist/buusdo-macos-1.1.0.zip | awk '{print $1}')
+# Edit SHA256SUMS: replace the buusdo-macos-1.1.0.zip line with $NEW, keep others.
+gh release upload v1.1.0 dist/buusdo-macos-1.1.0.zip SHA256SUMS \
+  --repo otas0/buusdo-Graphics-Enhancement-Tool --clobber
+```
+
+5. Add a one-liner to the release notes (e.g. `mac zip refreshed YYYY-MM-DD`).
+6. Re-download the asset, **delete** any older Applications copy, `ditto` the new
+   `.app` in, confirm no `Icon\r`, then `open` and check Dock vs Terminal.
+7. Comment on the tracking Issue (e.g. #46) with the new SHA256.
+
+Do **not** stamp `NSWorkspace.setIcon` with a full-bleed icns as part of refresh.
+Signing holds stay: no Authenticode / notarization / IPA.
+
 ## Non-goals (still)
 
 - No notarization / Gatekeeper blessing required for this config-only track
