@@ -47,8 +47,9 @@ Never use Qt `setWindowIcon` on macOS for Dock chrome.
    `AppIconDock.icns`.
 3. Set `CFBundleName` / `CFBundleDisplayName` to `PRODUCT_NAME`, rename `.app`
    folder to the full product name.
-4. Optionally `NSWorkspace.setIcon:forFile:` (needs a live AppKit session on the
-   builder); then **ad-hoc `codesign`** after every plist/resource/icon change.
+4. **Do not** stamp a full-bleed `NSWorkspace.setIcon` (Dock shows a hard
+   oversized square). Clear any custom Finder stamp; Path A = `CFBundleIconFile`
+   only. Then **ad-hoc `codesign`** after every plist/resource/icon change.
 5. Pack with `ditto -c -k` (not plain `zip` — preserves nested signatures).
 6. Run `scripts/smoke_macos_zip.py` (name + icons + codesign + AppIcon ≠ AppIconDock).
 
@@ -59,10 +60,18 @@ Developer ID / notarization / Authenticode / IPA unless explicitly requested.
 
 1. `bash scripts/package_macos_bundle.sh`
 2. Unzip `dist/buusdo-macos-*.zip`; confirm **full** product folder name.
-3. Finder: bundle icon is the logo (not blank document / floppy).
-4. `open` the app; Dock size should match neighbors; hover name = full product name.
-5. If floppy returns: `BUUSDO_FORCE_DOCK_ICON=1 open "/Applications/….app"`.
-6. Do **not** judge Dock chrome from a venv / `python -c` launch.
+3. **Replace** any older copy in Applications with this unzipped `.app` (delete the
+   old folder first). Do **not** mix a new zip with a leftover Applications
+   install — stale `Icon\r` custom stamps / old UI chrome will confuse Dock and
+   brand-row checks.
+4. Finder: bundle icon is the logo (not blank document / floppy). Confirm no
+   `Icon\r` next to `Contents` (`ls -la@` on the `.app`).
+5. `open` the app; Dock size should match neighbors; hover name = full product name.
+6. If floppy returns: `BUUSDO_FORCE_DOCK_ICON=1 open "/Applications/….app"`.
+7. Do **not** judge Dock chrome from a venv / `python -c` launch.
+
+Holds unchanged: no Authenticode / Developer ID notarization / IPA unless a
+human explicitly reopens signing.
 
 ## Non-goals (still)
 

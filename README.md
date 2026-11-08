@@ -73,7 +73,7 @@ buusdo Graphics Enhancement Tool 1.1.0 — desktop + companion APK (GitHub) · h
 | **Notarized + stapled** (macOS Developer ID) | Fresh download opens without that Gatekeeper block | **Cancelled** — will not ship ([CODE_SIGNING.md](docs/CODE_SIGNING.md)) |
 | **Authenticode** (Windows EV/OV) | Fewer SmartScreen warnings | **Cancelled** — will not ship |
 
-macOS first open: Finder → right-click `Buusdo.app` → **Open**. Product track is
+macOS first open: Finder → right-click `buusdo Graphics Enhancement Tool.app` → **Open**. Product track is
 **complete** at this unsigned shelf — [docs/PROJECT_COMPLETE.md](docs/PROJECT_COMPLETE.md).
 
 ## End-user install

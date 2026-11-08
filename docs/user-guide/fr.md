@@ -23,7 +23,7 @@ Pas besoin de Python pour le Setup.
 
 ## 3. macOS
 
-1. Dézipper, glisser `Buusdo.app` vers **Applications**.
+1. Dézipper, glisser `buusdo Graphics Enhancement Tool.app` vers **Applications**.
 2. **Clic droit** → **Ouvrir** → **Ouvrir** à nouveau.
 3. Ne pas seulement double-cliquer ; ne pas désactiver SIP.
 4. **Réglages Système** → **Confidentialité et sécurité** → **Ouvrir quand même**.

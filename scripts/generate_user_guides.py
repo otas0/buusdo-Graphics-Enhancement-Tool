@@ -139,7 +139,8 @@ v1.1.0 is **not** notarized. The zip is **ad-hoc signed** after Info.plist stamp
 
 1. Download the macOS `.zip` from Assets; double-click to unzip.
 2. Drag **`buusdo Graphics Enhancement Tool.app`** to **Applications**
-   (full product name — not a short `Buusdo.app`).
+   (full product name — not a short `Buusdo.app`). Replace any older copy —
+   do not leave a previous `.app` beside the new zip (stale Dock/UI).
 3. In Finder, go to **Applications**.
 4. **Right-click** (or Control-click) the app → **Open**.
 5. In the dialog, click **Open** again (first launch only while unnotarized).
@@ -330,7 +331,7 @@ buusdo 是桌面端的圖形增強 **排程 / 設定協調** 工具。工具包�
 
 ## 3. macOS — 開啟 .app（未公證）
 
-1. 下載並解壓 zip，將 `Buusdo.app` 拖到 **應用程式**。
+1. 下載並解壓 zip，將 `buusdo Graphics Enhancement Tool.app` 拖到 **應用程式**。
 2. **右鍵**（或 Control-點按）→ **打開** → 再按一次 **打開**。
 3. 勿只靠雙擊；也勿為了執行而關閉 SIP。
 4. 可選：**系統設定** → **隱私權與安全性** → **仍要打開**。
@@ -380,7 +381,7 @@ Python の別途インストールは Setup 実行に不要です。
 
 ## 3. macOS
 
-1. zip を展開し `Buusdo.app` を **アプリケーション** へ。
+1. zip を展開し `buusdo Graphics Enhancement Tool.app` を **アプリケーション** へ。
 2. **右クリック**（Control+クリック）→ **開く** → もう一度 **開く**。
 3. 初回はダブルクリックだけでは開けないことがあります。SIP を無効にしないでください。
 4. **システム設定** → **プライバシーとセキュリティ** → **このまま開く** も可。
@@ -423,7 +424,7 @@ Setup 실행에 Python 설치는 필요 없습니다.
 
 ## 3. macOS
 
-1. zip 압축 해제 후 `Buusdo.app`을 **응용 프로그램**으로 이동.
+1. zip 압축 해제 후 `buusdo Graphics Enhancement Tool.app`을 **응용 프로그램**으로 이동.
 2. **우클릭**(Control-클릭) → **열기** → 다시 **열기**.
 3. 처음에는 더블클릭만으로 막힐 수 있음. SIP를 끄지 마세요.
 4. **시스템 설정** → **개인정보 보호 및 보안** → **확인 없이 열기** 가능.
@@ -465,7 +466,7 @@ Für das Setup ist **kein** separates Python nötig.
 
 ## 3. macOS
 
-1. ZIP entpacken, `Buusdo.app` nach **Programme** ziehen.
+1. ZIP entpacken, `buusdo Graphics Enhancement Tool.app` nach **Programme** ziehen.
 2. **Rechtsklick** (Control-Klick) → **Öffnen** → erneut **Öffnen**.
 3. Nicht nur doppelklicken; SIP nicht deaktivieren.
 4. Optional: **Systemeinstellungen** → **Datenschutz & Sicherheit** → **Dennoch öffnen**.
@@ -507,7 +508,7 @@ Pas besoin de Python pour le Setup.
 
 ## 3. macOS
 
-1. Dézipper, glisser `Buusdo.app` vers **Applications**.
+1. Dézipper, glisser `buusdo Graphics Enhancement Tool.app` vers **Applications**.
 2. **Clic droit** → **Ouvrir** → **Ouvrir** à nouveau.
 3. Ne pas seulement double-cliquer ; ne pas désactiver SIP.
 4. **Réglages Système** → **Confidentialité et sécurité** → **Ouvrir quand même**.
@@ -549,7 +550,7 @@ No hace falta Python para el Setup.
 
 ## 3. macOS
 
-1. Descomprime el zip; mueve `Buusdo.app` a **Aplicaciones**.
+1. Descomprime el zip; mueve `buusdo Graphics Enhancement Tool.app` a **Aplicaciones**.
 2. **Clic derecho** → **Abrir** → **Abrir** otra vez.
 3. No solo doble clic; no desactives SIP.
 4. **Ajustes del Sistema** → **Privacidad y seguridad** → **Abrir de todos modos**.
@@ -591,7 +592,7 @@ Python non serve per il Setup.
 
 ## 3. macOS
 
-1. Estrai lo zip; trascina `Buusdo.app` in **Applicazioni**.
+1. Estrai lo zip; trascina `buusdo Graphics Enhancement Tool.app` in **Applicazioni**.
 2. **Clic destro** → **Apri** → di nuovo **Apri**.
 3. Non solo doppio clic; non disattivare SIP.
 4. **Impostazioni di Sistema** → **Privacy e sicurezza** → **Apri comunque**.
@@ -633,7 +634,7 @@ Não precisa de Python para o Setup.
 
 ## 3. macOS
 
-1. Extraia o zip; arraste `Buusdo.app` para **Aplicações**.
+1. Extraia o zip; arraste `buusdo Graphics Enhancement Tool.app` para **Aplicações**.
 2. **Clique direito** → **Abrir** → **Abrir** outra vez.
 3. Não use só duplo clique; não desative o SIP.
 4. **Definições do Sistema** → **Privacidade e segurança** → **Abrir mesmo assim**.
@@ -675,7 +676,7 @@ Não precisa de Python para o Setup.
 
 ## 3. macOS
 
-1. Extraia o zip; arraste `Buusdo.app` para **Aplicativos**.
+1. Extraia o zip; arraste `buusdo Graphics Enhancement Tool.app` para **Aplicativos**.
 2. **Clique com o botão direito** → **Abrir** → **Abrir** de novo.
 3. Não use só clique duplo; não desative o SIP.
 4. **Ajustes do Sistema** → **Privacidade e segurança** → **Abrir mesmo assim**.
@@ -717,7 +718,7 @@ BODIES["ru"] = f"""# Руководство пользователя buusdo (Р�
 
 ## 3. macOS
 
-1. Распакуйте zip; перетащите `Buusdo.app` в **Программы**.
+1. Распакуйте zip; перетащите `buusdo Graphics Enhancement Tool.app` в **Программы**.
 2. **ПКМ** (Control-клик) → **Открыть** → снова **Открыть**.
 3. Не полагайтесь только на двойной щелчок; не отключайте SIP.
 4. **Системные настройки** → **Конфиденциальность и безопасность** → **Всё равно открыть**.

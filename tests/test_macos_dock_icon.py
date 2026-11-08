@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
-from buusdo.macos_dock_icon import apply_dock_icon, branded_icns_path
+from pathlib import Path
+
+from buusdo.macos_dock_icon import (
+    apply_dock_icon,
+    branded_icns_path,
+    clear_bundle_finder_icon,
+)
 
 
 def test_branded_icns_path_finds_repo_asset() -> None:
@@ -15,3 +21,8 @@ def test_branded_icns_path_finds_repo_asset() -> None:
 def test_apply_dock_icon_returns_bool() -> None:
     # On Linux CI this is False; on macOS agent it may succeed or fail soft.
     assert apply_dock_icon() in (True, False)
+
+
+def test_clear_bundle_finder_icon_returns_bool(tmp_path: Path) -> None:
+    # Missing / non-bundle → False; must not raise.
+    assert clear_bundle_finder_icon(tmp_path / "nope.app") is False

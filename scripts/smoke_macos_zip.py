@@ -132,6 +132,14 @@ def main(argv: list[str]) -> int:
         if not exe.is_file():
             _die(f"CFBundleExecutable missing: {exe}")
 
+        # Custom Finder stamp (Icon\r + resource fork) → hard oversized Dock square.
+        custom_icon = app / "Icon\r"
+        if custom_icon.exists():
+            _die(
+                "bundle has Finder custom icon (Icon\\r) — "
+                "clear with clear_bundle_finder_icon; Path A is CFBundleIconFile only"
+            )
+
         if not shutil.which("codesign"):
             _die("codesign not available (required after plist stamp)")
         verify = subprocess.run(

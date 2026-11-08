@@ -61,7 +61,8 @@ v1.1.0 is **not** notarized. The zip is **ad-hoc signed** after Info.plist stamp
 
 1. Download the macOS `.zip` from Assets; double-click to unzip.
 2. Drag **`buusdo Graphics Enhancement Tool.app`** to **Applications**
-   (full product name — not a short `Buusdo.app`).
+   (full product name — not a short `Buusdo.app`). Replace any older copy —
+   do not leave a previous `.app` beside the new zip (stale Dock/UI).
 3. In Finder, go to **Applications**.
 4. **Right-click** (or Control-click) the app → **Open**.
 5. In the dialog, click **Open** again (first launch only while unnotarized).

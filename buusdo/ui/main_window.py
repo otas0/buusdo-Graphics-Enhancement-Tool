@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide6.QtCore import Qt, QEvent, QTimer, Slot
+from PySide6.QtCore import Qt, QTimer, Slot
 from PySide6.QtGui import QAction, QColor, QCursor, QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QApplication,
@@ -155,32 +155,50 @@ class MainWindow(QMainWindow):
         self._logo_label = make_logo_label(40, self)
         brand.addWidget(self._logo_label, 0, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         brand.addStretch(1)
-        backend_chip = QLabel(f"backend · {self._backend.platform_id()}")
-        backend_chip.setObjectName("backendChip")
-        brand.addWidget(backend_chip)
+        from buusdo.ui.theme import style_brand_chip
+
+        # Same widget class as other brand chips — QLabel + stylesheet ignores
+        # fixed height and paints a taller box than QPushButton#headerChip.
+        backend_chip = QPushButton(f"backend · {self._backend.platform_id()}")
+        backend_chip.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        backend_chip.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
+        style_brand_chip(backend_chip)
+        brand.addWidget(backend_chip, 0, Qt.AlignmentFlag.AlignVCenter)
         self._theme_btn = QPushButton()
+        style_brand_chip(self._theme_btn)
         self._theme_btn.clicked.connect(self._toggle_theme)
         self._refresh_theme_button()
-        brand.addWidget(self._theme_btn)
+        brand.addWidget(self._theme_btn, 0, Qt.AlignmentFlag.AlignVCenter)
         self._lang = None  # legacy combo removed — use search popup
         self._lang_btn = QPushButton(locale_display_name(get_locale()))
+        style_brand_chip(self._lang_btn)
         self._lang_btn.setToolTip(t("lang.button"))
         self._lang_btn.clicked.connect(self._open_language_dialog)
-        brand.addWidget(self._lang_btn)
+        brand.addWidget(self._lang_btn, 0, Qt.AlignmentFlag.AlignVCenter)
         self._btn_companion = QPushButton(t("companion.button"))
+        style_brand_chip(self._btn_companion)
         self._btn_companion.clicked.connect(self._show_companion)
-        brand.addWidget(self._btn_companion)
-        self._companion_chip = QLabel(t("companion.chip_on"))
-        self._companion_chip.setObjectName("backendChip")
+        brand.addWidget(self._btn_companion, 0, Qt.AlignmentFlag.AlignVCenter)
+        self._companion_chip = QPushButton(t("companion.chip_on"))
+        style_brand_chip(self._companion_chip)
         self._companion_chip.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self._companion_chip.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self._companion_chip.setToolTip(t("companion.chip_open"))
-        self._companion_chip.installEventFilter(self)
+        self._companion_chip.clicked.connect(self._show_companion)
         self._companion_chip.hide()
-        brand.addWidget(self._companion_chip)
+        brand.addWidget(self._companion_chip, 0, Qt.AlignmentFlag.AlignVCenter)
         self._btn_about = QPushButton(t("about.button"))
+        style_brand_chip(self._btn_about)
         self._btn_about.clicked.connect(self._show_about)
-        brand.addWidget(self._btn_about)
+        brand.addWidget(self._btn_about, 0, Qt.AlignmentFlag.AlignVCenter)
+        self._brand_chips = [
+            backend_chip,
+            self._theme_btn,
+            self._lang_btn,
+            self._btn_companion,
+            self._companion_chip,
+            self._btn_about,
+        ]
         outer.addLayout(brand)
 
         self._stack = QStackedWidget()
@@ -900,6 +918,23 @@ class MainWindow(QMainWindow):
         else:
             self._theme_btn.setText(t("theme.to_dark"))
 
+    def _restyle_brand_chips(self) -> None:
+        from buusdo.ui.theme import style_brand_chip
+
+        for w in getattr(self, "_brand_chips", []):
+            style_brand_chip(w)
+
+    def _sync_brand_about_visibility(self) -> None:
+        """Hide About on narrow widths so brand chips stay one row."""
+        about = getattr(self, "_btn_about", None)
+        if about is None:
+            return
+        about.setVisible(self.width() >= 960)
+
+    def resizeEvent(self, event) -> None:  # noqa: N802
+        super().resizeEvent(event)
+        self._sync_brand_about_visibility()
+
     def _toggle_theme(self) -> None:
         nxt: ThemeName = "light" if current_theme() == "dark" else "dark"
         app = QApplication.instance()
@@ -910,6 +945,9 @@ class MainWindow(QMainWindow):
         save_settings(data)
         refresh_logo_label(self._logo_label)
         self._refresh_theme_button()
+        # Stylesheet swap can drift chip metrics — re-apply fixed headerChip height.
+        self._restyle_brand_chips()
+        self._sync_brand_about_visibility()
 
     def _reload_steam_users(self) -> None:
         current = self._steam_user.currentData() if self._steam_user.count() else None
@@ -1334,19 +1372,6 @@ class MainWindow(QMainWindow):
             pairing=self._companion_pairing,
         )
         self._refresh_companion_chip()
-
-    def eventFilter(self, obj, event):  # noqa: N802
-        if obj is self._companion_chip:
-            if event.type() == QEvent.Type.MouseButtonRelease:
-                if event.button() == Qt.MouseButton.LeftButton:
-                    self._show_companion()
-                    return True
-            if event.type() == QEvent.Type.KeyPress:
-                key = event.key()
-                if key in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Space):
-                    self._show_companion()
-                    return True
-        return super().eventFilter(obj, event)
 
     def _refresh_companion_chip(self) -> None:
         from buusdo.companion.netinfo import companion_bind_addr, truncate_bind_addr

@@ -9,9 +9,12 @@ from __future__ import annotations
 from typing import Literal
 
 from PySide6.QtGui import QColor, QFont, QPalette
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QPushButton, QWidget
 
 ThemeName = Literal["light", "dark"]
+
+# Brand-row chrome (backend chip, theme/lang/companion/about chips).
+HEADER_CHIP_VERTICAL_PAD = 12
 
 # Colorblind-safe-ish: blue (ok) / orange (warn+accent) / vermillion (block)
 COLOR_OK = "#1F6F8B"
@@ -80,6 +83,46 @@ def current_theme() -> ThemeName:
 
 def _mono_family() -> str:
     return "Menlo, Courier New, monospace"
+
+
+def header_chip_height() -> int:
+    """Shared brand-row chip height — keep in sync with stylesheet max-height."""
+    return 28
+
+
+def style_brand_chip(widget: QWidget) -> None:
+    """Apply shared header chrome: ``headerChip`` + identical fixed height.
+
+    Brand-row controls must be ``QPushButton`` (not ``QLabel``): QLabel +
+    stylesheet border/padding ignores fixed height and paints a taller box.
+    """
+    from PySide6.QtWidgets import QSizePolicy
+
+    h = header_chip_height()
+    widget.setObjectName("headerChip")
+    widget.setFixedHeight(h)
+    widget.setMinimumHeight(h)
+    widget.setMaximumHeight(h)
+    widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+
+
+def relative_luminance(hex_color: str) -> float:
+    """sRGB relative luminance (0..1) for WCAG-style contrast checks."""
+
+    def _chan(c: int) -> float:
+        x = c / 255.0
+        return x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4
+
+    h = hex_color.lstrip("#")
+    r, g, b = (int(h[i : i + 2], 16) for i in (0, 2, 4))
+    return 0.2126 * _chan(r) + 0.7152 * _chan(g) + 0.0722 * _chan(b)
+
+
+def contrast_ratio(fg_hex: str, bg_hex: str) -> float:
+    l1 = relative_luminance(fg_hex)
+    l2 = relative_luminance(bg_hex)
+    lighter, darker = (l1, l2) if l1 >= l2 else (l2, l1)
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def apply_dark_theme(app: QApplication) -> None:
@@ -171,9 +214,11 @@ def apply_theme(app: QApplication, mode: ThemeName = "light") -> None:
             color: {COLOR_MUTED};
             text-transform: uppercase;
         }}
+        /* Legacy status badges only (not brand-row; those are QPushButton#headerChip). */
         QLabel#backendChip {{
             border: 1px solid {COLOR_LINE};
-            padding: 4px 8px;
+            border-radius: 0px;
+            padding: 0px 10px;
             background: {COLOR_SURFACE};
         }}
         QLabel#blockTitle {{
@@ -196,6 +241,26 @@ def apply_theme(app: QApplication, mode: ThemeName = "light") -> None:
             background: {c["btn_hover"]};
         }}
         QPushButton:pressed {{
+            background: {c["btn_pressed"]};
+        }}
+        /* After generic QPushButton so brand chips fully override padding/font.
+           Height is forced in style_brand_chip() — do not set min/max-height here
+           (Qt treats those as content box and drifts past fixedHeight). */
+        QPushButton#headerChip {{
+            font-family: {mono};
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: {COLOR_INK};
+            border: 1px solid {COLOR_LINE};
+            border-radius: 0px;
+            padding: 0px 10px;
+            background: {COLOR_SURFACE};
+        }}
+        QPushButton#headerChip:hover {{
+            background: {c["btn_hover"]};
+        }}
+        QPushButton#headerChip:pressed {{
             background: {c["btn_pressed"]};
         }}
         QPushButton:disabled {{

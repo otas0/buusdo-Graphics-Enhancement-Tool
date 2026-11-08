@@ -111,17 +111,15 @@ if [[ "${BUNDLE}" != "${TARGET_BUNDLE}" ]]; then
   echo "OK  renamed bundle → $(basename "${BUNDLE}")"
 fi
 
-# NSWorkspace custom icon (helps AutoFill/helper tiles). Needs a live AppKit
-# GUI session on the builder; soft-fail on headless CI is OK — CFBundleIconFile
-# + runtime Path A/B still cover Dock.
+# Never stamp a full-bleed NSWorkspace custom icon: Dock shows a hard oversized
+# square (no system squircle). Path A = CFBundleIconFile only. Clear any stale
+# custom stamp left from older packagers / local experiments.
 "${RUN_PY[@]}" - <<PY
 from pathlib import Path
-from buusdo.macos_dock_icon import set_bundle_finder_icon
+from buusdo.macos_dock_icon import clear_bundle_finder_icon
 app = Path(r"""${BUNDLE}""")
-# Full-bleed for Finder custom icon (system still masks when Path A applies).
-icns = Path(r"""${ICNS}""")
-ok = set_bundle_finder_icon(app, icns)
-print("OK  NSWorkspace.setIcon" if ok else "WARN NSWorkspace.setIcon skipped (no GUI AppKit session)")
+ok = clear_bundle_finder_icon(app)
+print("OK  cleared Finder custom icon" if ok else "WARN clear Finder icon skipped (no GUI AppKit)")
 PY
 
 # MUST codesign after any Info.plist / Resources / icon change.
