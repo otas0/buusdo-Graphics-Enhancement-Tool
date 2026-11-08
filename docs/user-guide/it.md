@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool — Guida utente buusdo (Italiano)
+# Guida utente buusdo (Italiano)
 
 Lingue: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · **Italiano** · [日本語](ja.md) · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · [Русский](ru.md) · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 
@@ -7,6 +7,15 @@ Download e avvio su Windows, macOS e Linux. [v1.1.0](https://github.com/otas0/bu
 ## Panoramica
 
 Scheduler / coordinatore di configurazione grafica. Kit BYO. macOS è **solo config**. v1.1.0 è **non firmato**.
+
+## Quale percorso?
+
+| Pubblico | Cosa fare |
+|----------|-----------|
+| **Maggioranza degli utenti** | Pacchetti **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` o onedir) + sblocco / SmartScreen / Gatekeeper sotto. |
+| **Sviluppatori / avanzato** | Opzione **Dal codice sorgente** in fondo. Percorso **dev**, non un modo ufficiale per evitare SmartScreen / Gatekeeper. |
+
+Clonare l’intero repository non sostituisce gli installer consigliati.
 
 ## 1. Download
 
@@ -38,6 +47,22 @@ python3 -m pip install ./buusdo-*-py3-none-any.whl "PySide6-Essentials==6.12.0" 
 ## 5. Dopo il primo avvio
 
 Seleziona le cartelle kit nell’UI. Nessun bypass anti-cheat. Issues: https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues.
+
+## Dal codice sorgente (sviluppatori / avanzato)
+
+Percorso **dev** — non l’installazione consigliata per gli utenti, né per aggirare SmartScreen / Gatekeeper.
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+Kit BYO. I binari auto-compilati restano **non firmati** di default.
 
 ---
 

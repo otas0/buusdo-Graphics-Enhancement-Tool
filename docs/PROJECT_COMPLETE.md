@@ -19,7 +19,7 @@
 MVP in-scope work ([MVP.md](MVP.md)) and the 1.1.0 companion cut
 ([RELEASE_1.1.0.md](RELEASE_1.1.0.md)) are satisfied without certificates.
 
-## What “完结” means
+## What “complete” means
 
 - No further feature work, certs, store submission, or IPA packaging.
 - Optional **fixes-only** patches only if a real user files a `launch` / `scan` /

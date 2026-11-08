@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool — Руководство пользователя buusdo (Русский)
+# Руководство пользователя buusdo (Русский)
 
 Языки: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · [日本語](ja.md) · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · **Русский** · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 
@@ -7,6 +7,15 @@
 ## Обзор
 
 Планировщик / координатор графических настроек. Наборы (kits) BYO. На macOS — **только конфигурация**. v1.1.0 **без подписи**.
+
+## Какой путь выбрать?
+
+| Кому | Что делать |
+|------|------------|
+| **Большинству пользователей** | Пакеты **Releases** (Windows Setup / macOS `.app` / Linux `install_linux.sh` или onedir) + шаги разблокировки / SmartScreen / Gatekeeper ниже. |
+| **Разработчикам / продвинутым** | Раздел **Из исходников** в конце. Это **dev-путь**, а не официальный способ обойти SmartScreen / Gatekeeper. |
+
+Клонирование всего репозитория не заменяет рекомендуемые установщики.
 
 ## 1. Скачивание
 
@@ -38,6 +47,22 @@ python3 -m pip install ./buusdo-*-py3-none-any.whl "PySide6-Essentials==6.12.0" 
 ## 5. После первого запуска
 
 Укажите папки kits в UI. Обход античита невозможен. Issues: https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues.
+
+## Из исходников (разработчики / продвинутые)
+
+**Dev-путь** — не рекомендуемая установка для обычных пользователей и не способ обойти SmartScreen / Gatekeeper.
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+Наборы BYO. Собранные вами `.exe` / `.app` по умолчанию остаются **без подписи**.
 
 ---
 

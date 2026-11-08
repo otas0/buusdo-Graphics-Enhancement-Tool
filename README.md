@@ -78,15 +78,34 @@ macOS first open: Finder → right-click `Buusdo.app` → **Open**. Product trac
 
 ## End-user install
 
-**Prefer the packaged release** (Windows Setup / macOS `.app` / Linux helper) — see the **[User guide](docs/user-guide/README.md)** for first-open steps (unsigned SmartScreen / Gatekeeper).
+**Most users:** prefer the **packaged release** (Windows Setup / macOS `.app` zip /
+Linux `install_linux.sh` or onedir). See the **[User guide](docs/user-guide/README.md)**
+for first-open steps (unsigned SmartScreen / Gatekeeper — unblock / Run anyway /
+right-click Open). Downloading the whole git repository is **not** the recommended
+install path for normal use.
 
-### Advanced: Python wheel
+### Developers / advanced: from source (dev path)
+
+For contributing or debugging only — **not** a supported way to bypass SmartScreen /
+Gatekeeper:
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+uv sync --extra devui
+python -m buusdo
+```
+
+Details (all UI languages): [docs/user-guide/](docs/user-guide/README.md).
+
+### Advanced: Python wheel (from Releases)
 
 1. Install Python 3.11+ and get a wheel from a release/`dist/` build (`buusdo-*.whl`).
 2. Install and launch:
 
 ```bash
-python -m pip install ./buusdo-*.whl
+python -m pip install ./buusdo-*-py3-none-any.whl
 python -m pip install "PySide6-Essentials==6.12.0"   # UI
 python -m buusdo
 ```

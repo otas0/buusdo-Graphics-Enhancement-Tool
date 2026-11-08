@@ -82,6 +82,15 @@ Languages: {nav("en")}
 
 How to download and open **buusdo Graphics Enhancement Tool** on Windows, macOS, and Linux. Latest release: [v1.1.0]({RELEASE}).
 
+## Who should use which path
+
+| Audience | What to do |
+|----------|------------|
+| **Most users** | Download **Releases** packages (Windows Setup / macOS `.app` zip / Linux `install_linux.sh` or onedir). Follow the unblock / SmartScreen / Gatekeeper steps below. |
+| **Developers / advanced** | Optional **from-source** path at the end of this guide (`git clone` → venv → `python -m buusdo`). That path is for **development**, not a supported way to “avoid” SmartScreen or Gatekeeper. |
+
+Cloning the whole repository does **not** replace the recommended installers for normal use.
+
 ## What you are installing
 
 **buusdo Graphics Enhancement Tool** is a desktop **scheduler / config coordinator** for existing graphics stacks (ReShade, OptiScaler, etc.). Kits are **BYO** (not bundled). Capabilities differ by OS — macOS is **config-only** (no injection).
@@ -94,7 +103,7 @@ How to download and open **buusdo Graphics Enhancement Tool** on Windows, macOS,
    - **Windows:** installer / Setup `.exe` (Inno)
    - **macOS:** `.app` inside a `.zip`
    - **Linux:** onedir archive and/or wheel + `install_linux.sh`
-4. Do **not** use only the source code zip unless you intend to build from source.
+4. Do **not** use only the source code zip unless you intend to build from source (see **From source** below).
 5. Optional: verify checksums with the release `SHA256SUMS` file.
 
 ## 2. Windows — open the installer (unsigned)
@@ -183,7 +192,24 @@ If the UI fails to start, install Qt/xcb deps for your distro (e.g. on Debian/Ub
 3. Anti-cheat blocks cannot be bypassed (“continue anyway” does not exist).
 4. Language: use the language control in the UI (same codes as this guide).
 
-## 6. Still stuck?
+## 6. From source (developers / advanced)
+
+This is a **dev path** for contributing or debugging. It is **not** the recommended install for most users, and it is **not** documented as a way to bypass SmartScreen / Gatekeeper.
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+# Prefer uv if you have it:
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# Or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+You still need BYO ReShade / OptiScaler kits in the UI. Building your own `.exe` / `.app` from source remains **unsigned** unless you sign it yourself.
+
+## 7. Still stuck?
 
 Note: (1) full dialog title/screenshot, (2) installer vs installed app, (3) OS version. Open an issue at {REPO}/issues.
 """
@@ -193,6 +219,15 @@ BODIES["zh"] = f"""# buusdo Graphics Enhancement Tool — 用户指南（简体�
 语言: {nav("zh")}
 
 如何在 Windows / macOS / Linux 上下载并打开 **buusdo**。最新版：[v1.1.0]({RELEASE})。
+
+## 该走哪条路径
+
+| 对象 | 怎么做 |
+|------|--------|
+| **普通用户** | 继续用 **Releases** 里的安装包（Windows Setup / macOS `.app` zip / Linux `install_linux.sh` 或 onedir），并按下文做解除锁定 / SmartScreen / Gatekeeper。 |
+| **开发者 / 进阶** | 可用文末 **从源码运行**（`git clone` → venv → `python -m buusdo`）。这是 **开发路径**，不是为了绕过 SmartScreen / Gatekeeper，也不是普通用户推荐安装方式。 |
+
+下载整个仓库 **不能** 代替上述安装包，作为日常安装方式。
 
 ## 你在安装什么
 
@@ -206,7 +241,7 @@ buusdo 是桌面端的图形增强 **调度 / 配置协调** 工具（ReShade、
    - **Windows：** Setup / 安装包 `.exe`
    - **macOS：** zip 里的 `.app`
    - **Linux：** onedir 和/或 wheel + `install_linux.sh`
-4. 不要只下 Source code，除非你要自己编译。
+4. 不要只下 Source code，除非你要自己从源码跑（见下文 **从源码运行**）。
 5. 可用发布页的 `SHA256SUMS` 校验。
 
 ## 2. Windows — 打开安装包（未签名）
@@ -291,7 +326,23 @@ python3 -m buusdo
 3. 反作弊拦截 **无法**「仍然继续」。
 4. 语言可在应用内切换（与本指南语言代码一致）。
 
-## 6. 仍打不开？
+## 6. 从源码运行（开发者 / 进阶）
+
+这是 **开发路径**，用于贡献代码或调试。**不是**普通用户推荐安装方式，也 **不是** 用来绕过 SmartScreen / Gatekeeper 的官方办法。
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# 或: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+仍需在界面里自备 ReShade / OptiScaler 工具包。自行从源码打出的 `.exe` / `.app` 默认仍是 **未签名**。
+
+## 7. 仍打不开？
 
 请记录：(1) 完整弹窗标题/截图 (2) 是安装包还是已安装程序 (3) 系统版本。到 {REPO}/issues 提 Issue。
 """
@@ -729,6 +780,211 @@ python3 -m pip install ./buusdo-*-py3-none-any.whl "PySide6-Essentials==6.12.0" 
 """
 
 
+_CLONE = f"""```bash
+git clone {REPO}.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\\\Scripts\\\\activate
+uv sync --extra devui
+# or: python -m pip install -e ".[devui]"
+python -m buusdo
+```"""
+
+# Audience + from-source blocks for locales not inlined in BODIES["en"|"zh"].
+PATH_BLOCKS: dict[str, tuple[str, str]] = {
+    "zh-Hant": (
+        """## 該走哪條路徑
+
+| 對象 | 怎麼做 |
+|------|--------|
+| **一般使用者** | 使用 **Releases** 的安裝包（Windows Setup / macOS `.app` zip / Linux `install_linux.sh` 或 onedir），並依下文解除封鎖 / SmartScreen / Gatekeeper。 |
+| **開發者 / 進階** | 可用文末 **從原始碼執行**。這是 **開發路徑**，不是為了繞過 SmartScreen / Gatekeeper。 |
+
+下載整個倉庫 **不能** 取代上述安裝包作為日常安裝方式。
+""",
+        f"""## 從原始碼執行（開發者 / 進階）
+
+這是 **開發路徑**，**不是**一般使用者建議安裝方式，也 **不是** 用來繞過 SmartScreen / Gatekeeper。
+
+{_CLONE}
+
+仍需在 UI 自備工具包；自行編譯的套件預設仍為 **未簽名**。
+""",
+    ),
+    "ja": (
+        """## どの手順を使うか
+
+| 対象 | 内容 |
+|------|------|
+| **一般ユーザー** | **Releases** の Setup / `.app` / `install_linux.sh`（または onedir）を使い、下記のブロック解除・SmartScreen・Gatekeeper 手順に従う。 |
+| **開発者 / 上級** | 末尾の **ソースから実行**（開発用）。SmartScreen / Gatekeeper 回避のための公式手段ではない。 |
+
+リポジトリ全体のクローンは、通常インストールの代わりにはなりません。
+""",
+        f"""## ソースから実行（開発者 / 上級）
+
+**開発用パス**です。一般ユーザー向け推奨インストールではなく、SmartScreen / Gatekeeper 回避用でもありません。
+
+{_CLONE}
+
+キットは BYO。自前ビルドの `.exe` / `.app` は通常 **未署名** のままです。
+""",
+    ),
+    "ko": (
+        """## 어떤 경로를 쓸까
+
+| 대상 | 방법 |
+|------|------|
+| **일반 사용자** | **Releases**의 Setup / `.app` / `install_linux.sh`(또는 onedir) + 아래 차단 해제 / SmartScreen / Gatekeeper 단계. |
+| **개발자 / 고급** | 하단 **소스에서 실행**. **개발용**이며 SmartScreen / Gatekeeper 우회용이 아님. |
+
+전체 저장소 클론은 일상 설치를 대체하지 않습니다.
+""",
+        f"""## 소스에서 실행（개발자 / 고급）
+
+**개발 경로**입니다. 일반 사용자 권장 설치가 아니며, SmartScreen / Gatekeeper 우회 방법이 아닙니다.
+
+{_CLONE}
+
+키트는 BYO. 직접 빌드한 패키지는 기본적으로 **미서명**입니다.
+""",
+    ),
+    "de": (
+        """## Welcher Weg?
+
+| Zielgruppe | Vorgehen |
+|------------|----------|
+| **Die meisten Nutzer** | **Releases**-Pakete (Windows-Setup / macOS-`.app` / Linux `install_linux.sh` oder onedir) + Unblock / SmartScreen / Gatekeeper unten. |
+| **Entwickler / Fortgeschrittene** | Optional **Aus dem Quellcode** am Ende. Das ist ein **Dev-Pfad**, kein offizieller Weg, SmartScreen/Gatekeeper zu umgehen. |
+
+Das Klonen des gesamten Repos ersetzt die empfohlenen Installer nicht.
+""",
+        f"""## Aus dem Quellcode (Entwickler / Fortgeschrittene)
+
+**Dev-Pfad** — nicht die empfohlene Nutzerinstallation und **nicht** zum Umgehen von SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kits bleiben BYO. Selbst gebaute `.exe` / `.app` sind standardmäßig **unsigniert**.
+""",
+    ),
+    "fr": (
+        """## Quelle voie ?
+
+| Public | Action |
+|--------|--------|
+| **La plupart des utilisateurs** | Paquets **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` ou onedir) + étapes de déblocage / SmartScreen / Gatekeeper ci-dessous. |
+| **Développeurs / avancé** | Option **Depuis les sources** en fin de guide. Chemin **dev**, pas un moyen officiel de contourner SmartScreen / Gatekeeper. |
+
+Cloner tout le dépôt ne remplace pas les installateurs recommandés.
+""",
+        f"""## Depuis les sources (développeurs / avancé)
+
+Chemin **dev** — pas l’installation recommandée pour le grand public, et **pas** pour contourner SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kits BYO. Les binaires auto-construits restent **non signés** par défaut.
+""",
+    ),
+    "es": (
+        """## ¿Qué ruta usar?
+
+| Público | Qué hacer |
+|---------|-----------|
+| **Mayoría de usuarios** | Paquetes de **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` u onedir) + desbloqueo / SmartScreen / Gatekeeper abajo. |
+| **Desarrolladores / avanzado** | Opción **Desde el código fuente** al final. Ruta **dev**, no un atajo oficial para evitar SmartScreen / Gatekeeper. |
+
+Clonar todo el repositorio no sustituye los instaladores recomendados.
+""",
+        f"""## Desde el código fuente (desarrolladores / avanzado)
+
+Ruta **dev** — no es la instalación recomendada para usuarios, ni un método para evitar SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kits BYO. Los binarios propios siguen **sin firmar** por defecto.
+""",
+    ),
+    "it": (
+        """## Quale percorso?
+
+| Pubblico | Cosa fare |
+|----------|-----------|
+| **Maggioranza degli utenti** | Pacchetti **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` o onedir) + sblocco / SmartScreen / Gatekeeper sotto. |
+| **Sviluppatori / avanzato** | Opzione **Dal codice sorgente** in fondo. Percorso **dev**, non un modo ufficiale per evitare SmartScreen / Gatekeeper. |
+
+Clonare l’intero repository non sostituisce gli installer consigliati.
+""",
+        f"""## Dal codice sorgente (sviluppatori / avanzato)
+
+Percorso **dev** — non l’installazione consigliata per gli utenti, né per aggirare SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kit BYO. I binari auto-compilati restano **non firmati** di default.
+""",
+    ),
+    "pt": (
+        """## Que caminho usar?
+
+| Público | O que fazer |
+|---------|-------------|
+| **A maioria dos utilizadores** | Pacotes **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` ou onedir) + desbloqueio / SmartScreen / Gatekeeper abaixo. |
+| **Programadores / avançado** | Opção **A partir do código-fonte** no fim. Caminho **dev**, não um atalho oficial para evitar SmartScreen / Gatekeeper. |
+
+Clonar o repositório inteiro não substitui os instaladores recomendados.
+""",
+        f"""## A partir do código-fonte (programadores / avançado)
+
+Caminho **dev** — não é a instalação recomendada para utilizadores, nem para contornar SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kits BYO. Binários próprios continuam **sem assinatura** por omissão.
+""",
+    ),
+    "pt-BR": (
+        """## Qual caminho usar?
+
+| Público | O que fazer |
+|---------|-------------|
+| **Maioria dos usuários** | Pacotes **Releases** (Setup Windows / `.app` macOS / `install_linux.sh` ou onedir) + desbloqueio / SmartScreen / Gatekeeper abaixo. |
+| **Desenvolvedores / avançado** | Opção **A partir do código-fonte** no final. Caminho **dev**, não um atalho oficial para evitar SmartScreen / Gatekeeper. |
+
+Clonar o repositório inteiro não substitui os instaladores recomendados.
+""",
+        f"""## A partir do código-fonte (desenvolvedores / avançado)
+
+Caminho **dev** — não é a instalação recomendada para usuários, nem para contornar SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Kits BYO. Binários próprios continuam **sem assinatura** por padrão.
+""",
+    ),
+    "ru": (
+        """## Какой путь выбрать?
+
+| Кому | Что делать |
+|------|------------|
+| **Большинству пользователей** | Пакеты **Releases** (Windows Setup / macOS `.app` / Linux `install_linux.sh` или onedir) + шаги разблокировки / SmartScreen / Gatekeeper ниже. |
+| **Разработчикам / продвинутым** | Раздел **Из исходников** в конце. Это **dev-путь**, а не официальный способ обойти SmartScreen / Gatekeeper. |
+
+Клонирование всего репозитория не заменяет рекомендуемые установщики.
+""",
+        f"""## Из исходников (разработчики / продвинутые)
+
+**Dev-путь** — не рекомендуемая установка для обычных пользователей и не способ обойти SmartScreen / Gatekeeper.
+
+{_CLONE}
+
+Наборы BYO. Собранные вами `.exe` / `.app` по умолчанию остаются **без подписи**.
+""",
+    ),
+}
+
+
 def stub_body(code: str, native: str, eng: str, langs: list[tuple[str, str, str]]) -> str:
     """English stub when a locale JSON exists but BODIES[code] was never written."""
     return f"""# buusdo user guide ({eng})
@@ -737,6 +993,13 @@ Languages: {nav(code, langs)}
 
 > **Stub:** add a full translation for `{code}` ({native}). Until then, follow the
 > English guide: [en.md](en.md). Latest release: [v1.1.0]({RELEASE}).
+
+## Who should use which path
+
+| Audience | What to do |
+|----------|------------|
+| **Most users** | **Releases** Setup / `.app` / `install_linux.sh` (or onedir) + unblock steps in [en.md](en.md). |
+| **Developers / advanced** | From-source below — **dev path**, not for bypassing SmartScreen / Gatekeeper. |
 
 ## What you are installing
 
@@ -756,7 +1019,64 @@ build). Do **not** disable SIP on macOS.
 ## 5. After first launch
 
 Point the UI at your kit folders. Anti-cheat cannot be bypassed. Issues: {REPO}/issues.
+
+## 6. From source (developers / advanced)
+
+**Dev path** — not the recommended user install; not for bypassing SmartScreen / Gatekeeper.
+
+{_CLONE}
 """
+
+
+def apply_path_blocks(code: str, body: str) -> str:
+    """Insert audience + from-source sections when not already present."""
+    if "From source (developers" in body or "从源码运行" in body or "從原始碼執行" in body:
+        return body
+    if "ソースから実行" in body or "소스에서 실행" in body or "Aus dem Quellcode" in body:
+        return body
+    if "Depuis les sources" in body or "Desde el código" in body or "Dal codice sorgente" in body:
+        return body
+    if "A partir do código" in body or "Из исходников" in body:
+        return body
+    audience, source = PATH_BLOCKS.get(code, (None, None))
+    if audience is None:
+        return body
+    # Insert audience before first "## 1." / localized equivalent heading after intro.
+    for marker in (
+        "## 1. ",
+        "## 1．",
+        "## 你在安裝",
+        "## 你在安装",
+        "## What you are installing",
+        "## Überblick",
+        "## Aperçu",
+        "## Resumen",
+        "## Panoramica",
+        "## Обзор",
+        "## 概要",
+        "## 개요",
+    ):
+        idx = body.find(marker)
+        if idx != -1 and marker.startswith("## 1"):
+            body = body[:idx] + audience.rstrip() + "\n\n" + body[idx:]
+            break
+        if idx != -1 and marker in (
+            "## 你在安裝",
+            "## 你在安装",
+            "## What you are installing",
+            "## Überblick",
+            "## Aperçu",
+            "## Resumen",
+            "## Panoramica",
+            "## Обзор",
+            "## 概要",
+            "## 개요",
+        ):
+            body = body[:idx] + audience.rstrip() + "\n\n" + body[idx:]
+            break
+    if source.rstrip() not in body:
+        body = body.rstrip() + "\n\n" + source.rstrip() + "\n"
+    return body
 
 
 def main() -> None:
@@ -780,7 +1100,15 @@ def main() -> None:
         f"| [{native}]({code}.md) | `{code}` | {eng} |"
         for code, native, eng in langs
     )
-    index = f"""# buusdo user guides (all UI languages)
+    index = f"""# buusdo Graphics Enhancement Tool — user guides
+
+**Most users:** install from [Releases]({RELEASE}) (Windows Setup / macOS `.app` /
+Linux `install_linux.sh` or onedir) and follow the unblock / SmartScreen /
+Gatekeeper steps in your language guide.
+
+**Developers / advanced:** optional from-source section in each guide
+(`git clone` → venv → `python -m buusdo`) — a **dev path**, not a way to bypass
+unsigned-app warnings.
 
 GitHub **does not** auto-translate repository docs. This folder ships one guide
 per UI locale from `buusdo/locales/` (same codes as the in-app language picker).
@@ -799,7 +1127,8 @@ SmartScreen and macOS Gatekeeper).
     (OUT / "README.md").write_text(index + "\n", encoding="utf-8")
 
     for code, _, _ in langs:
-        body = BODIES[code].rstrip() + "\n" + common_footer(code, langs)
+        body = apply_path_blocks(code, BODIES[code])
+        body = body.rstrip() + "\n" + common_footer(code, langs)
         (OUT / f"{code}.md").write_text(body, encoding="utf-8")
         print("wrote", code)
 

@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool ユーザーガイド（日本語）
+# buusdo ユーザーガイド（日本語）
 
 言語: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · **日本語** · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · [Русский](ru.md) · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 
@@ -7,6 +7,15 @@ Windows / macOS / Linux でのダウンロードと起動手順。[v1.1.0](https
 ## 概要
 
 グラフィックス強化の **スケジューラ / 設定コーディネータ**。キットは同梱されません（BYO）。macOS は **設定のみ**（注入なし）。v1.1.0 は **未署名** です。
+
+## どの手順を使うか
+
+| 対象 | 内容 |
+|------|------|
+| **一般ユーザー** | **Releases** の Setup / `.app` / `install_linux.sh`（または onedir）を使い、下記のブロック解除・SmartScreen・Gatekeeper 手順に従う。 |
+| **開発者 / 上級** | 末尾の **ソースから実行**（開発用）。SmartScreen / Gatekeeper 回避のための公式手段ではない。 |
+
+リポジトリ全体のクローンは、通常インストールの代わりにはなりません。
 
 ## 1. ダウンロード
 
@@ -39,6 +48,22 @@ python3 -m pip install ./buusdo-*-py3-none-any.whl "PySide6-Essentials==6.12.0" 
 ## 5. 起動後
 
 UI で ReShade / OptiScaler キットフォルダを指定。アンチチート遮断は迂回できません。問題は https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues。
+
+## ソースから実行（開発者 / 上級）
+
+**開発用パス**です。一般ユーザー向け推奨インストールではなく、SmartScreen / Gatekeeper 回避用でもありません。
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+キットは BYO。自前ビルドの `.exe` / `.app` は通常 **未署名** のままです。
 
 ---
 

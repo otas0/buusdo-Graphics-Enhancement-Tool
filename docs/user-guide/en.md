@@ -4,6 +4,15 @@ Languages: [Deutsch](de.md) · **English** · [Español](es.md) · [Français](f
 
 How to download and open **buusdo Graphics Enhancement Tool** on Windows, macOS, and Linux. Latest release: [v1.1.0](https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/releases/tag/v1.1.0).
 
+## Who should use which path
+
+| Audience | What to do |
+|----------|------------|
+| **Most users** | Download **Releases** packages (Windows Setup / macOS `.app` zip / Linux `install_linux.sh` or onedir). Follow the unblock / SmartScreen / Gatekeeper steps below. |
+| **Developers / advanced** | Optional **from-source** path at the end of this guide (`git clone` → venv → `python -m buusdo`). That path is for **development**, not a supported way to “avoid” SmartScreen or Gatekeeper. |
+
+Cloning the whole repository does **not** replace the recommended installers for normal use.
+
 ## What you are installing
 
 **buusdo Graphics Enhancement Tool** is a desktop **scheduler / config coordinator** for existing graphics stacks (ReShade, OptiScaler, etc.). Kits are **BYO** (not bundled). Capabilities differ by OS — macOS is **config-only** (no injection).
@@ -16,7 +25,7 @@ How to download and open **buusdo Graphics Enhancement Tool** on Windows, macOS,
    - **Windows:** installer / Setup `.exe` (Inno)
    - **macOS:** `.app` inside a `.zip`
    - **Linux:** onedir archive and/or wheel + `install_linux.sh`
-4. Do **not** use only the source code zip unless you intend to build from source.
+4. Do **not** use only the source code zip unless you intend to build from source (see **From source** below).
 5. Optional: verify checksums with the release `SHA256SUMS` file.
 
 ## 2. Windows — open the installer (unsigned)
@@ -105,7 +114,24 @@ If the UI fails to start, install Qt/xcb deps for your distro (e.g. on Debian/Ub
 3. Anti-cheat blocks cannot be bypassed (“continue anyway” does not exist).
 4. Language: use the language control in the UI (same codes as this guide).
 
-## 6. Still stuck?
+## 6. From source (developers / advanced)
+
+This is a **dev path** for contributing or debugging. It is **not** the recommended install for most users, and it is **not** documented as a way to bypass SmartScreen / Gatekeeper.
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+# Prefer uv if you have it:
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+uv sync --extra devui
+# Or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+You still need BYO ReShade / OptiScaler kits in the UI. Building your own `.exe` / `.app` from source remains **unsigned** unless you sign it yourself.
+
+## 7. Still stuck?
 
 Note: (1) full dialog title/screenshot, (2) installer vs installed app, (3) OS version. Open an issue at https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues.
 

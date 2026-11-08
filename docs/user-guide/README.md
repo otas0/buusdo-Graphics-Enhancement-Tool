@@ -1,4 +1,12 @@
-# buusdo user guides (all UI languages)
+# buusdo Graphics Enhancement Tool — user guides
+
+**Most users:** install from [Releases](https://github.com/otas0/buusdo/releases/tag/v1.1.0) (Windows Setup / macOS `.app` /
+Linux `install_linux.sh` or onedir) and follow the unblock / SmartScreen /
+Gatekeeper steps in your language guide.
+
+**Developers / advanced:** optional from-source section in each guide
+(`git clone` → venv → `python -m buusdo`) — a **dev path**, not a way to bypass
+unsigned-app warnings.
 
 GitHub **does not** auto-translate repository docs. This folder ships one guide
 per UI locale from `buusdo/locales/` (same codes as the in-app language picker).

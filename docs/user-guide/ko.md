@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool 사용자 가이드（한국어）
+# buusdo 사용자 가이드（한국어）
 
 언어: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · [日本語](ja.md) · **한국어** · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · [Русский](ru.md) · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 
@@ -7,6 +7,15 @@ Windows / macOS / Linux 다운로드 및 실행. [v1.1.0](https://github.com/ota
 ## 개요
 
 그래픽 향상 **스케줄러/설정 조정** 도구. 키트는 번들되지 않음(BYO). macOS는 **설정 전용**(인젝션 없음). v1.1.0은 **미서명**입니다.
+
+## 어떤 경로를 쓸까
+
+| 대상 | 방법 |
+|------|------|
+| **일반 사용자** | **Releases**의 Setup / `.app` / `install_linux.sh`(또는 onedir) + 아래 차단 해제 / SmartScreen / Gatekeeper 단계. |
+| **개발자 / 고급** | 하단 **소스에서 실행**. **개발용**이며 SmartScreen / Gatekeeper 우회용이 아님. |
+
+전체 저장소 클론은 일상 설치를 대체하지 않습니다.
 
 ## 1. 다운로드
 
@@ -38,6 +47,22 @@ python3 -m pip install ./buusdo-*-py3-none-any.whl "PySide6-Essentials==6.12.0" 
 ## 5. 실행 후
 
 UI에서 ReShade/OptiScaler 키트 폴더 지정. 안티치트 차단은 우회 불가. 이슈: https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues.
+
+## 소스에서 실행（개발자 / 고급）
+
+**개발 경로**입니다. 일반 사용자 권장 설치가 아니며, SmartScreen / Gatekeeper 우회 방법이 아닙니다.
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+uv sync --extra devui
+# or: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+키트는 BYO. 직접 빌드한 패키지는 기본적으로 **미서명**입니다.
 
 ---
 

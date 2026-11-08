@@ -4,6 +4,15 @@
 
 如何在 Windows / macOS / Linux 上下载并打开 **buusdo**。最新版：[v1.1.0](https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/releases/tag/v1.1.0)。
 
+## 该走哪条路径
+
+| 对象 | 怎么做 |
+|------|--------|
+| **普通用户** | 继续用 **Releases** 里的安装包（Windows Setup / macOS `.app` zip / Linux `install_linux.sh` 或 onedir），并按下文做解除锁定 / SmartScreen / Gatekeeper。 |
+| **开发者 / 进阶** | 可用文末 **从源码运行**（`git clone` → venv → `python -m buusdo`）。这是 **开发路径**，不是为了绕过 SmartScreen / Gatekeeper，也不是普通用户推荐安装方式。 |
+
+下载整个仓库 **不能** 代替上述安装包，作为日常安装方式。
+
 ## 你在安装什么
 
 buusdo 是桌面端的图形增强 **调度 / 配置协调** 工具（ReShade、OptiScaler 等）。工具包 **自备（BYO）**，不随安装包捆绑。各系统能力不同 — **macOS 仅为配置**（无注入）。
@@ -16,7 +25,7 @@ buusdo 是桌面端的图形增强 **调度 / 配置协调** 工具（ReShade、
    - **Windows：** Setup / 安装包 `.exe`
    - **macOS：** zip 里的 `.app`
    - **Linux：** onedir 和/或 wheel + `install_linux.sh`
-4. 不要只下 Source code，除非你要自己编译。
+4. 不要只下 Source code，除非你要自己从源码跑（见下文 **从源码运行**）。
 5. 可用发布页的 `SHA256SUMS` 校验。
 
 ## 2. Windows — 打开安装包（未签名）
@@ -101,7 +110,23 @@ python3 -m buusdo
 3. 反作弊拦截 **无法**「仍然继续」。
 4. 语言可在应用内切换（与本指南语言代码一致）。
 
-## 6. 仍打不开？
+## 6. 从源码运行（开发者 / 进阶）
+
+这是 **开发路径**，用于贡献代码或调试。**不是**普通用户推荐安装方式，也 **不是** 用来绕过 SmartScreen / Gatekeeper 的官方办法。
+
+```bash
+git clone https://github.com/otas0/buusdo.git
+cd buusdo
+uv venv --python 3.12 .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+uv sync --extra devui
+# 或: python -m pip install -e ".[devui]"
+python -m buusdo
+```
+
+仍需在界面里自备 ReShade / OptiScaler 工具包。自行从源码打出的 `.exe` / `.app` 默认仍是 **未签名**。
+
+## 7. 仍打不开？
 
 请记录：(1) 完整弹窗标题/截图 (2) 是安装包还是已安装程序 (3) 系统版本。到 https://github.com/otas0/buusdo-Graphics-Enhancement-Tool/issues 提 Issue。
 
