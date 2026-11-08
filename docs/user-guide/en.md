@@ -77,6 +77,16 @@ v1.1.0 is **not** notarized. The zip is **ad-hoc signed** after Info.plist stamp
 
 You do **not** need to disable SIP. macOS buusdo is config-only (C5).
 
+### Advanced — re-sign with your own Developer ID (optional)
+
+Only if you **already** have an Apple Developer ID Application certificate.
+This is for **your** Mac (or machines you distribute to yourself). It does
+**not** remove Gatekeeper for other people who download the GitHub zip, and
+buusdo will **not** ship notarized builds ([CODE_SIGNING.md](../CODE_SIGNING.md)).
+
+Most users should stop at Right-click → Open above. Full commands:
+[MAC_PACKAGE.md — Optional: re-sign with your own Developer ID](../MAC_PACKAGE.md).
+
 ## 4. Linux — install and run
 
 ### Option A — `install_linux.sh` (wheel next to the script)

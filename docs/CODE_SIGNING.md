@@ -33,7 +33,15 @@ bash scripts/sign_and_notarize_macos.sh
 CI `installer.yml` Authenticode inputs remain fail-closed defaults (`false`).
 Leave them off.
 
+## Optional: end-user / maintainer self-sign (not ship)
+
+If **you** already have a Developer ID, you may re-sign a **local** `.app` for
+your own machines or your own redistribution. That does **not** bless the public
+GitHub zip for everyone else. Steps and caveats:
+[MAC_PACKAGE.md — Optional: re-sign with your own Developer ID](MAC_PACKAGE.md).
+
 ## Related
 
 - Project complete: [PROJECT_COMPLETE.md](PROJECT_COMPLETE.md)
 - Honesty / unsigned UX: [user-guide/en.md](user-guide/en.md)
+- macOS package / Dock: [MAC_PACKAGE.md](MAC_PACKAGE.md)

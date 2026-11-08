@@ -69,6 +69,15 @@ v1.1.0 **未**公证；zip 在改 Info.plist 后会做 **ad-hoc 签名**（便�
 
 **不要**为了跑 buusdo 去关 SIP。macOS 版仅为配置（C5）。
 
+### 高级 — 自备 Developer ID 重签（可选）
+
+仅当你**已经**有 Apple Developer ID Application 证书时适用。只影响**你本机**
+（或你自己再分发的副本），**不能**消除其他人下载 GitHub zip 时的 Gatekeeper；
+项目也**不会**上架公证包（见 [CODE_SIGNING.md](../CODE_SIGNING.md)）。
+
+多数用户做到上面的「右键 → 打开」即可。完整命令见
+[MAC_PACKAGE.md — Optional: re-sign with your own Developer ID](../MAC_PACKAGE.md)。
+
 ## 4. Linux — 安装与运行
 
 ### 方式 A — `install_linux.sh`

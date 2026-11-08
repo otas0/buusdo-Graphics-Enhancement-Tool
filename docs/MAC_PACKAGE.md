@@ -98,6 +98,45 @@ gh release upload v1.1.0 dist/buusdo-macos-1.1.0.zip SHA256SUMS \
 Do **not** stamp `NSWorkspace.setIcon` with a full-bleed icns as part of refresh.
 Signing holds stay: no Authenticode / notarization / IPA.
 
+## Optional: re-sign with your own Developer ID (local / self-distribution only)
+
+**Who this is for:** people who already have an Apple Developer Program membership
+and a **Developer ID Application** certificate. Everyone else should use
+**Right-click → Open** (see the [user guide](user-guide/en.md)) — do **not** buy
+a cert just to run buusdo.
+
+**What this does *not* do:**
+
+- It does **not** change the GitHub release (stays ad-hoc / unsigned track —
+  [CODE_SIGNING.md](CODE_SIGNING.md)).
+- It does **not** remove Gatekeeper warnings for **other** people who download
+  the public zip. Only copies **you** sign (and, if you notarize, staple) behave
+  like your own distribution.
+- Ad-hoc re-sign (`codesign --sign -`) alone does **not** clear “unidentified
+  developer” for download-quarantined apps.
+
+**Outline** (identity names are yours; never commit secrets):
+
+```bash
+APP="/Applications/buusdo Graphics Enhancement Tool.app"
+# List identities: security find-identity -v -p codesigning
+IDENTITY="Developer ID Application: Your Name (TEAMID)"
+
+codesign --force --deep --options runtime --sign "$IDENTITY" "$APP"
+codesign --verify --deep --strict --verbose=2 "$APP"
+
+# Optional notarization (needed for quiet open on other Macs you control):
+ditto -c -k --keepParent "$APP" /tmp/buusdo-to-notarize.zip
+xcrun notarytool submit /tmp/buusdo-to-notarize.zip \
+  --keychain-profile "YOUR_NOTARY_PROFILE" --wait
+xcrun stapler staple "$APP"
+spctl --assess --type execute -v "$APP"
+```
+
+Maintainers with a filled `scripts/codesign.env` (gitignored) may use the archived
+helper `scripts/sign_and_notarize_macos.sh` the same way — still **not** a ship
+path for GitHub Assets.
+
 ## Non-goals (still)
 
 - No notarization / Gatekeeper blessing required for this config-only track
