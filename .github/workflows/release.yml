@@ -69,6 +69,11 @@ jobs:
         run: |
           chmod +x scripts/package_macos_bundle.sh
           bash scripts/package_macos_bundle.sh
+          # package_macos_bundle.sh already runs smoke_macos_zip.py (name+icon+codesign).
+          shopt -s nullglob
+          ZIPS=(dist/buusdo-macos-*.zip)
+          [[ ${#ZIPS[@]} -eq 1 ]] || { echo "FATAL: expected one mac zip, got ${#ZIPS[@]}"; exit 1; }
+          uv run python scripts/smoke_macos_zip.py "${ZIPS[0]}"
       - uses: actions/upload-artifact@v4
         with:
           name: buusdo-macos

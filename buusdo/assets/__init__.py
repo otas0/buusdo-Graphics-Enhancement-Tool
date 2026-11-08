@@ -52,5 +52,10 @@ def logo_ico_path() -> Path:
 
 
 def logo_icns_path() -> Path:
-    """macOS .icns derived from logo.png (Mac package track)."""
+    """macOS .icns derived from logo.png (Mac package track / Finder)."""
     return asset_path("logo.icns")
+
+
+def logo_dock_icns_path() -> Path:
+    """Pre-masked squircle .icns for runtime Dock (setApplicationIconImage)."""
+    return asset_path("logo_dock.icns")

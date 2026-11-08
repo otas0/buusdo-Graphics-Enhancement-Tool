@@ -132,20 +132,25 @@ v1.1.0 is **not** Authenticode-signed. SmartScreen is expected. You do **not** n
 
 Edge/Chrome may also quarantine the download — open the download list (`Ctrl + J`) and choose **Keep** / **Keep anyway**.
 
-## 3. macOS — open the .app (unsigned)
+## 3. macOS — open the .app (unsigned / ad-hoc)
 
-v1.1.0 is **not** notarized. Gatekeeper blocks are expected.
+v1.1.0 is **not** notarized. The zip is **ad-hoc signed** after Info.plist stamps
+(so LaunchServices can start it), but Gatekeeper still warns — expected.
 
 1. Download the macOS `.zip` from Assets; double-click to unzip.
-2. Drag `Buusdo.app` to **Applications** (recommended).
+2. Drag **`buusdo Graphics Enhancement Tool.app`** to **Applications**
+   (full product name — not a short `Buusdo.app`).
 3. In Finder, go to **Applications**.
-4. **Right-click** (or Control-click) `Buusdo.app` → **Open**.
-5. In the dialog, click **Open** again (first launch only while unsigned).
+4. **Right-click** (or Control-click) the app → **Open**.
+5. In the dialog, click **Open** again (first launch only while unnotarized).
 6. If you only double-clicked and saw **Move to Trash** / cannot be opened:
    - Use right-click → **Open** (do not only double-click the first time).
 7. Optional System Settings path (macOS Ventura+):
    - **System Settings** → **Privacy & Security**
-   - Scroll to the message about Buusdo → **Open Anyway** → confirm.
+   - Scroll to the message about the app → **Open Anyway** → confirm.
+8. Confirm Dock tile shows the **logo** (not a blank document) and the hover
+   name is the **full** product name. If you launched via `python -m` / venv,
+   Dock may show a generic Python/document icon — use the `.app` instead.
 
 You do **not** need to disable SIP. macOS buusdo is config-only (C5).
 
@@ -244,17 +249,18 @@ v1.1.0 **没有** Authenticode 签名，出现 SmartScreen **正常**。跑 Setu
 
 Edge/Chrome：`Ctrl + J` 打开下载列表，选 **保留** / **仍要保留**。
 
-## 3. macOS — 打开 .app（未公证）
+## 3. macOS — 打开 .app（未公证 / ad-hoc）
 
-v1.1.0 **未**公证，Gatekeeper 拦截 **正常**。
+v1.1.0 **未**公证；zip 在改 Info.plist 后会做 **ad-hoc 签名**（便于启动），但 Gatekeeper 警告仍 **正常**。
 
 1. 下载 macOS `.zip`，双击解压。
-2. 将 `Buusdo.app` 拖到 **应用程序**（建议）。
+2. 将 **`buusdo Graphics Enhancement Tool.app`**（全称）拖到 **应用程序**。
 3. 打开 **访达** → **应用程序**。
-4. **右键**（或 Control-单击）`Buusdo.app` → **打开**。
-5. 对话框再点一次 **打开**（未签名时首次需要）。
+4. **右键**（或 Control-单击）应用 → **打开**。
+5. 对话框再点一次 **打开**（未公证时首次需要）。
 6. 若只双击出现 **移到废纸篓** / 无法打开：必须用右键 → **打开**。
-7. 可选（Ventura+）：**系统设置** → **隐私与安全性** → 滚到 Buusdo 提示 → **仍要打开**。
+7. 可选（Ventura+）：**系统设置** → **隐私与安全性** → 滚到应用提示 → **仍要打开**。
+8. 核对 Dock：**logo** + 悬停全称。若用 venv / `python -m` 启动，Dock 可能是空白文档图标 — 请改用 `.app`。
 
 **不要**为了跑 buusdo 去关 SIP。macOS 版仅为配置（C5）。
 

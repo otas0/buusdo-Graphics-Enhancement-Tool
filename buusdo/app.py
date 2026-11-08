@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 
+from buusdo import PRODUCT_NAME, PRODUCT_NAME_SHORT
 from buusdo.backends import get_backend
 from buusdo.core.crash_report import capture_exception
 from buusdo.core.errors import BuusdoError
@@ -11,8 +12,9 @@ from buusdo.macos_name import ensure_process_name
 
 
 def main(argv: list[str] | None = None) -> int:
-    # Before Qt: Dock/menu should say "buusdo", not "Python".
-    ensure_process_name("buusdo")
+    # Before Qt (dev/venv only): Dock/menu should not say "Python".
+    # Frozen .app skips re-exec; CFBundleName / DisplayName own the chrome.
+    ensure_process_name(PRODUCT_NAME_SHORT)
 
     argv = list(sys.argv if argv is None else argv)
     try:
@@ -30,18 +32,21 @@ def main(argv: list[str] | None = None) -> int:
     from buusdo.ui.tray_icon import app_icon
 
     app = QApplication(argv)
-    app.setApplicationName("buusdo")
-    app.setApplicationDisplayName("buusdo")
-    app.setOrganizationName("buusdo")
+    # Short id for settings paths; full official name for user-visible chrome.
+    app.setApplicationName(PRODUCT_NAME_SHORT)
+    app.setApplicationDisplayName(PRODUCT_NAME)
+    app.setOrganizationName(PRODUCT_NAME_SHORT)
     app.setOrganizationDomain("buusdo.app")
 
     settings = load_settings()
     mode: ThemeName = "dark" if settings.get("ui_theme") == "dark" else "light"
     apply_theme(app, mode)
 
-    # On macOS, Qt setWindowIcon replaces the Dock tile with a hard square
-    # (system squircle mask is skipped). Launch via Buusdo.app so Dock uses
-    # CFBundleIconFile / AppIcon.icns instead.
+    # Windows/Linux: Qt owns the window/taskbar icon.
+    # macOS: never Qt setWindowIcon. Default = CFBundleIconFile full-bleed AppIcon
+    # (system Dock mask ⇒ same optical size as Terminal). Clear any stale
+    # setApplicationIconImage from older builds. Set BUUSDO_FORCE_DOCK_ICON=1 to
+    # force inset AppIconDock via AppKit if the PyInstaller floppy returns.
     if sys.platform != "darwin":
         app.setWindowIcon(app_icon())
 
@@ -53,4 +58,22 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     window = MainWindow(backend=backend)
     window.show()
+    if sys.platform == "darwin":
+        import os
+
+        from PySide6.QtCore import QTimer
+
+        from buusdo.macos_dock_icon import apply_dock_icon, clear_dock_icon_override
+
+        if os.environ.get("BUUSDO_FORCE_DOCK_ICON") == "1":
+            apply_dock_icon()
+            QTimer.singleShot(0, apply_dock_icon)
+            QTimer.singleShot(250, apply_dock_icon)
+        else:
+            clear_dock_icon_override()
+            QTimer.singleShot(0, clear_dock_icon_override)
     return app.exec()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -80,6 +80,37 @@ def main() -> int:
         else:
             print(f"OK  {script}")
 
+    # Windows PE version resource must carry the official full product name.
+    sys.path.insert(0, str(ROOT))
+    from buusdo import PRODUCT_NAME
+
+    win_ver = (ROOT / "packaging" / "buusdo_win_version.txt").read_text(encoding="utf-8")
+    if PRODUCT_NAME not in win_ver or "ProductName" not in win_ver:
+        print("FAIL packaging/buusdo_win_version.txt missing ProductName=PRODUCT_NAME", file=sys.stderr)
+        failed += 1
+    else:
+        print("OK  buusdo_win_version.txt ProductName")
+
+    for path in (
+        ROOT / "scripts" / "package_macos_bundle.sh",
+        ROOT / "scripts" / "smoke_macos_zip.py",
+        ROOT / "buusdo" / "assets" / "logo.icns",
+    ):
+        if not path.is_file():
+            print(f"FAIL missing {path.relative_to(ROOT)}", file=sys.stderr)
+            failed += 1
+        else:
+            print(f"OK  {path.relative_to(ROOT)}")
+    pkg_sh = (ROOT / "scripts" / "package_macos_bundle.sh").read_text(encoding="utf-8")
+    pkg_ok = True
+    for needle in ("codesign --force", "smoke_macos_zip.py", "CFBundleIconFile", "logo.icns"):
+        if needle not in pkg_sh:
+            print(f"FAIL package_macos_bundle.sh missing {needle!r}", file=sys.stderr)
+            failed += 1
+            pkg_ok = False
+    if pkg_ok:
+        print("OK  package_macos_bundle.sh codesign+icon+smoke")
+
     if failed:
         print(f"gate FAILED ({failed})", file=sys.stderr)
         return 1

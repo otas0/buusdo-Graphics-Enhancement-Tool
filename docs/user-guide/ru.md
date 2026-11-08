@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool — Руководство пользователя buusdo (Русский)
+# Руководство пользователя buusdo (Русский)
 
 Языки: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · [日本語](ja.md) · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · **Русский** · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 

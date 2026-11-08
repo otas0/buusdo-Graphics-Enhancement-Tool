@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool — Guia do utilizador buusdo (Português)
+# Guia do utilizador buusdo (Português)
 
 Idiomas: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · [日本語](ja.md) · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · **Português** · [Русский](ru.md) · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 

@@ -54,17 +54,18 @@ v1.1.0 **没有** Authenticode 签名，出现 SmartScreen **正常**。跑 Setu
 
 Edge/Chrome：`Ctrl + J` 打开下载列表，选 **保留** / **仍要保留**。
 
-## 3. macOS — 打开 .app（未公证）
+## 3. macOS — 打开 .app（未公证 / ad-hoc）
 
-v1.1.0 **未**公证，Gatekeeper 拦截 **正常**。
+v1.1.0 **未**公证；zip 在改 Info.plist 后会做 **ad-hoc 签名**（便于启动），但 Gatekeeper 警告仍 **正常**。
 
 1. 下载 macOS `.zip`，双击解压。
-2. 将 `Buusdo.app` 拖到 **应用程序**（建议）。
+2. 将 **`buusdo Graphics Enhancement Tool.app`**（全称）拖到 **应用程序**。
 3. 打开 **访达** → **应用程序**。
-4. **右键**（或 Control-单击）`Buusdo.app` → **打开**。
-5. 对话框再点一次 **打开**（未签名时首次需要）。
+4. **右键**（或 Control-单击）应用 → **打开**。
+5. 对话框再点一次 **打开**（未公证时首次需要）。
 6. 若只双击出现 **移到废纸篓** / 无法打开：必须用右键 → **打开**。
-7. 可选（Ventura+）：**系统设置** → **隐私与安全性** → 滚到 Buusdo 提示 → **仍要打开**。
+7. 可选（Ventura+）：**系统设置** → **隐私与安全性** → 滚到应用提示 → **仍要打开**。
+8. 核对 Dock：**logo** + 悬停全称。若用 venv / `python -m` 启动，Dock 可能是空白文档图标 — 请改用 `.app`。
 
 **不要**为了跑 buusdo 去关 SIP。macOS 版仅为配置（C5）。
 

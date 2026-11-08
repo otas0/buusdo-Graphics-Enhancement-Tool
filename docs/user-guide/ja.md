@@ -1,4 +1,4 @@
-# buusdo Graphics Enhancement Tool ユーザーガイド（日本語）
+# buusdo ユーザーガイド（日本語）
 
 言語: [Deutsch](de.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Italiano](it.md) · **日本語** · [한국어](ko.md) · [Português (Brasil)](pt-BR.md) · [Português](pt.md) · [Русский](ru.md) · [繁體中文](zh-Hant.md) · [简体中文](zh.md)
 

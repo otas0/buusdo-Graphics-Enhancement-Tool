@@ -1,4 +1,4 @@
-"""Make macOS Dock / menu bar show \"buusdo\" instead of \"Python\"."""
+"""Make macOS Dock / menu bar show the product short name instead of \"Python\"."""
 
 from __future__ import annotations
 
@@ -7,12 +7,23 @@ import sys
 from pathlib import Path
 
 
+def _running_from_app_bundle(exe: Path) -> bool:
+    """True when argv0 lives in ``Something.app/Contents/MacOS/``."""
+    try:
+        return exe.parent.name == "MacOS" and exe.parent.parent.name == "Contents"
+    except OSError:
+        return False
+
+
 def ensure_process_name(name: str = "buusdo") -> None:
     """Re-exec via a same-dir symlink named for Dock (basename of argv0).
 
     Important: do **not** ``resolve()`` ``sys.executable`` — uv/venv may point at a
     shared CPython install; the shim must live next to the *venv* ``python`` so
     ``site-packages`` still resolve.
+
+    Frozen PyInstaller / ``.app`` launches must **not** re-exec — Dock/menu names
+    come from ``CFBundleName`` / ``CFBundleDisplayName``.
     """
     if sys.platform != "darwin":
         return
@@ -20,8 +31,12 @@ def ensure_process_name(name: str = "buusdo") -> None:
         return
     if os.environ.get("_BUUSDO_NAMED") == "1":
         return
+    if getattr(sys, "frozen", False):
+        return
 
     exe = Path(sys.executable)  # keep venv path; do not resolve()
+    if _running_from_app_bundle(exe):
+        return
     # Avoid clobbering the console-script entry ``.venv/bin/buusdo``.
     shim_name = "Buusdo" if name.lower() == "buusdo" else name
     if exe.name in {shim_name, name}:

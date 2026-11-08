@@ -13,6 +13,12 @@ assignees: ""
 - buusdo version / commit / wheel filename:
 - Backend shown in UI (windows / linux / macos):
 
+**macOS display / launch** (skip if not macOS)
+- App won't open / Gatekeeper / `kLSNoExecutableErr`? (yes/no):
+- Menu bar name wrong (short "Buusdo" / "Python" instead of full product name)? (yes/no):
+- Dock icon blank document / wrong tile? (yes/no):
+- How you launched (Finder `.app` / Terminal `open` / venv `python -m`):
+
 **What you did**
 1.
 2.

@@ -54,20 +54,25 @@ v1.1.0 is **not** Authenticode-signed. SmartScreen is expected. You do **not** n
 
 Edge/Chrome may also quarantine the download — open the download list (`Ctrl + J`) and choose **Keep** / **Keep anyway**.
 
-## 3. macOS — open the .app (unsigned)
+## 3. macOS — open the .app (unsigned / ad-hoc)
 
-v1.1.0 is **not** notarized. Gatekeeper blocks are expected.
+v1.1.0 is **not** notarized. The zip is **ad-hoc signed** after Info.plist stamps
+(so LaunchServices can start it), but Gatekeeper still warns — expected.
 
 1. Download the macOS `.zip` from Assets; double-click to unzip.
-2. Drag `Buusdo.app` to **Applications** (recommended).
+2. Drag **`buusdo Graphics Enhancement Tool.app`** to **Applications**
+   (full product name — not a short `Buusdo.app`).
 3. In Finder, go to **Applications**.
-4. **Right-click** (or Control-click) `Buusdo.app` → **Open**.
-5. In the dialog, click **Open** again (first launch only while unsigned).
+4. **Right-click** (or Control-click) the app → **Open**.
+5. In the dialog, click **Open** again (first launch only while unnotarized).
 6. If you only double-clicked and saw **Move to Trash** / cannot be opened:
    - Use right-click → **Open** (do not only double-click the first time).
 7. Optional System Settings path (macOS Ventura+):
    - **System Settings** → **Privacy & Security**
-   - Scroll to the message about Buusdo → **Open Anyway** → confirm.
+   - Scroll to the message about the app → **Open Anyway** → confirm.
+8. Confirm Dock tile shows the **logo** (not a blank document) and the hover
+   name is the **full** product name. If you launched via `python -m` / venv,
+   Dock may show a generic Python/document icon — use the `.app` instead.
 
 You do **not** need to disable SIP. macOS buusdo is config-only (C5).
 
